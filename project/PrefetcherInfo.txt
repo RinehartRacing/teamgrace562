@@ -1,0 +1,50 @@
+Complete List of Prefetchers:
+
+m5.objects.StridePrefetcher()
+m5.objects.TaggedPrefetcher()
+m5.objects.IndirectMemoryPrefetcher()
+m5.objects.SignaturePathPrefetcher()
+m5.objects.SignaturePathPrefetcherV2()
+m5.objects.AMPMPrefetcher()
+m5.objects.DCPTPrefetcher()
+m5.objects.IrregularStreamBufferPrefetcher()
+m5.objects.SlimAMPMPrefetcher()
+m5.objects.BOPPrefetcher()
+m5.objects.SBOOEPrefetcher()
+m5.objects.STeMSPrefetcher()
+m5.objects.PIFPrefetcher()
+
+
+Complete List of Prefetcher Statistics:
+
+system.cpu.dcache.prefetcher.prefetchers00.num_hwpf_issued                                    # number of hwpf issued
+system.cpu.dcache.prefetcher.prefetchers00.pfBufferHit                                        # number of redundant prefetches already in prefetch queue
+system.cpu.dcache.prefetcher.prefetchers00.pfIdentified                                       # number of prefetch candidates identified
+system.cpu.dcache.prefetcher.prefetchers00.pfInCache                                          # number of redundant prefetches already in cache/mshr dropped
+system.cpu.dcache.prefetcher.prefetchers00.pfRemovedFull                                      # number of prefetches dropped due to prefetch queue size
+system.cpu.dcache.prefetcher.prefetchers00.pfSpanPage                                         # number of prefetches that crossed the page
+system.mem_ctrls.bytes_read::.cpu.dcache.prefetcher.prefetchers00                             # Number of bytes read from this memory
+system.mem_ctrls.num_reads::.cpu.dcache.prefetcher.prefetchers00                              # Number of read requests responded to by this memory
+system.mem_ctrls.bw_read::.cpu.dcache.prefetcher.prefetchers00                                # Total read bandwidth from this memory (bytes/s)
+system.mem_ctrls.bw_total::.cpu.dcache.prefetcher.prefetchers00                               # Total bandwidth to/from this memory (bytes/s)
+system.mem_ctrls.avgPriority_.cpu.dcache.prefetcher.prefetchers00::samples                    # Average QoS priority value for accepted requests
+system.mem_ctrls.masterReadBytes::.cpu.dcache.prefetcher.prefetchers00                        # Per-master bytes read from memory
+system.mem_ctrls.masterReadRate::.cpu.dcache.prefetcher.prefetchers00                         # Per-master bytes read from memory rate (Bytes/sec)
+system.mem_ctrls.masterReadAccesses::.cpu.dcache.prefetcher.prefetchers00                     # Per-master read serviced memory accesses
+system.mem_ctrls.masterReadTotalLat::.cpu.dcache.prefetcher.prefetchers00                     # Per-master read total memory access latency
+system.mem_ctrls.masterReadAvgLat::.cpu.dcache.prefetcher.prefetchers00                       # Per-master read average memory access latency
+system.cpu.dcache.overall_mshr_misses::.cpu.dcache.prefetcher.prefetchers00                   # number of overall MSHR misses
+system.cpu.dcache.overall_mshr_miss_latency::.cpu.dcache.prefetcher.prefetchers00             # number of overall MSHR miss cycles
+system.cpu.dcache.overall_mshr_miss_rate::.cpu.dcache.prefetcher.prefetchers00                # mshr miss rate for overall accesses
+system.cpu.dcache.overall_avg_mshr_miss_latency::.cpu.dcache.prefetcher.prefetchers00         # average overall mshr miss latency
+system.cpu.dcache.HardPFReq_mshr_misses::.cpu.dcache.prefetcher.prefetchers00                 # number of HardPFReq MSHR misses
+system.cpu.dcache.HardPFReq_mshr_miss_latency::.cpu.dcache.prefetcher.prefetchers00           # number of HardPFReq MSHR miss cycles
+system.cpu.dcache.HardPFReq_mshr_miss_rate::.cpu.dcache.prefetcher.prefetchers00              # mshr miss rate for HardPFReq accesses
+system.cpu.dcache.HardPFReq_avg_mshr_miss_latency::.cpu.dcache.prefetcher.prefetchers00       # average HardPFReq mshr miss latency
+system.cpu.dcache.tags.occ_blocks::.cpu.dcache.prefetcher.prefetchers00                       # Average occupied blocks per requestor
+system.cpu.dcache.tags.occ_percent::.cpu.dcache.prefetcher.prefetchers00                      # Average percentage of cache occupancy
+system.cpu.dcache.unused_prefetches                                                           # number of HardPF blocks evicted w/o reference
+
+Command to Run MultiPrefetcher:
+
+build/ARM/gem5.opt configs/example/se.py --caches --l1i_size=32kB --l1i_assoc=4 --l1d_size=32kB --l1d_assoc=4 --l1d-hwp-type=MultiPrefetcher --cacheline_size=64 --cpu-clock=1.6GHz --cpu-type=O3_ARM_v7a_3 -n 1 --maxinsts=100000000 --bench <benchmark>
