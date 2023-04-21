@@ -322,9 +322,9 @@ class BasePrefetcher : public ClockedObject
 
     Stats::Scalar pfIssued;
 
-    /** Total prefetches issued */
+    // /** Total prefetches issued */
     uint64_t issuedPrefetches;
-    /** Total prefetches that has been useful */
+    // /** Total prefetches that has been useful */
     uint64_t usefulPrefetches;
 
     /** Registered tlb for address translations */
@@ -384,12 +384,13 @@ class BasePrefetcher : public ClockedObject
      */
     void addTLB(BaseTLB *tlb);
 
-    /* Elliot's Changes Start Here */
-    BaseCache* getCache() {
-        return this->cache;
+    /* Elliot's Changes Begin Here */
+    uint64_t runningPrefetches = 0;
+    uint64_t getIssuedPrefetches() {
+        return this->issuedPrefetches;
     }
-    double getPfIssued() {
-        return this->pfIssued.value();
+    uint64_t getUsefulPrefetches() {
+        return this->usefulPrefetches;
     }
     /* Elliot's Changes End Here */
 

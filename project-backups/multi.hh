@@ -51,6 +51,12 @@ class MultiPrefetcher : public BasePrefetcher
     MultiPrefetcher(const MultiPrefetcherParams *p);
 
   public:  // BasePrefetcher
+
+    /* Elliot's Changes Begin Here */
+    double runningInsts = 0;
+    double intervalInsts = 100000;
+    /* Elliot's Changes End Here */
+
     void setCache(BaseCache *_cache) override;
     PacketPtr getPacket() override;
     Tick nextPrefetchReadyTime() const override;

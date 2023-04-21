@@ -1,19 +1,20 @@
 Complete List of Prefetchers:
 
-m5.objects.StridePrefetcher()
-m5.objects.TaggedPrefetcher()
-m5.objects.IndirectMemoryPrefetcher()
-m5.objects.SignaturePathPrefetcher()
-m5.objects.SignaturePathPrefetcherV2()
-m5.objects.AMPMPrefetcher()
-m5.objects.DCPTPrefetcher()
-m5.objects.IrregularStreamBufferPrefetcher()
-m5.objects.SlimAMPMPrefetcher()
-m5.objects.BOPPrefetcher()
-m5.objects.SBOOEPrefetcher()
-m5.objects.STeMSPrefetcher()
-m5.objects.PIFPrefetcher()
+StridePrefetcher
+TaggedPrefetcher
+IndirectMemoryPrefetcher
+SignaturePathPrefetcher
+SignaturePathPrefetcherV2
+AMPMPrefetcher
+DCPTPrefetcher
+SlimAMPMPrefetcher
+BOPPrefetcher
+SBOOEPrefetcher
+STeMSPrefetcher
 
+Command to Run gem5 With Prefetcher:
+
+build/ARM/gem5.opt configs/example/se.py --caches --l1i_size=32kB --l1i_assoc=4 --l1d_size=32kB --l1d_assoc=4 --l1d-hwp-type=<Prefetcher_Type> --cacheline_size=64 --cpu-clock=1.6GHz --cpu-type=O3_ARM_v7a_3 -n 1 --maxinsts=100000000 --bench <benchmark>
 
 Complete List of Prefetcher Statistics:
 
@@ -43,8 +44,3 @@ system.cpu.dcache.HardPFReq_mshr_miss_rate::.cpu.dcache.prefetcher.prefetchers00
 system.cpu.dcache.HardPFReq_avg_mshr_miss_latency::.cpu.dcache.prefetcher.prefetchers00       # average HardPFReq mshr miss latency
 system.cpu.dcache.tags.occ_blocks::.cpu.dcache.prefetcher.prefetchers00                       # Average occupied blocks per requestor
 system.cpu.dcache.tags.occ_percent::.cpu.dcache.prefetcher.prefetchers00                      # Average percentage of cache occupancy
-system.cpu.dcache.unused_prefetches                                                           # number of HardPF blocks evicted w/o reference
-
-Command to Run MultiPrefetcher:
-
-build/ARM/gem5.opt configs/example/se.py --caches --l1i_size=32kB --l1i_assoc=4 --l1d_size=32kB --l1d_assoc=4 --l1d-hwp-type=MultiPrefetcher --cacheline_size=64 --cpu-clock=1.6GHz --cpu-type=O3_ARM_v7a_3 -n 1 --maxinsts=100000000 --bench <benchmark>

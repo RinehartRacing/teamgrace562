@@ -39,10 +39,12 @@
  */
 
 #include "mem/cache/prefetch/multi.hh"
-#include "cpu/exec_context.hh"
-
 
 #include "params/MultiPrefetcher.hh"
+
+/* Elliot Added These Headers */
+#include "sim/stat_control.hh"
+#include "sim/stats.hh"
 
 MultiPrefetcher::MultiPrefetcher(const MultiPrefetcherParams *p)
     : BasePrefetcher(p),
@@ -71,15 +73,32 @@ MultiPrefetcher::nextPrefetchReadyTime() const
 PacketPtr
 MultiPrefetcher::getPacket()
 {
+
+    /* Elliot's Changes Start Here */
+    auto stat_list = Stats::statsList();
+    for (const auto& stat : stat_list) {
+        auto scalar_info = dynamic_cast<Stats::ScalarInfo*>(stat);
+        if (scalar_info && scalar_info->name == "sim_insts") {
+            double totalInsts = scalar_info->value();
+            if ((totalInsts - this->runningInsts) > intervalInsts) {
+                this->runningInsts = totalInsts - remainder(totalInsts, this->intervalInsts);
+                printf("Instruction Count: %f\n", totalInsts);
+                printf("Prefetcher\tIssued Prefetches\n");
+                int i = 0;
+                for (auto pf : prefetchers) {
+                    printf("%d\t\t%lu\n", i, pf->getIssuedPrefetches() - pf->runningPrefetches);
+                    pf->runningPrefetches = pf->getIssuedPrefetches();
+                    i++;
+                }
+                printf("\n");
+            }
+        }
+    }
+    /* Elliot's Changes End Here */
+
     for (auto pf : prefetchers) {
         if (pf->nextPrefetchReadyTime() <= curTick()) {
             PacketPtr pkt = pf->getPacket();
-            ExecContext *ec = tc->getProcessPtr()->getExecContextPtr();
-
-            Stats::Value sim_insts = tc->getStats()->totalInsts;
-            printf("sim_insts = %" PRIu64 "\n", static_cast<uint64_t>(sim_insts));
-
-            // printf("%lu", pf->getIssuedPrefetches());
             panic_if(!pkt, "Prefetcher is ready but didn't return a packet.");
             return pkt;
         }
