@@ -217,23 +217,33 @@ QueuedPrefetcher::getPacket()
                     //Grab all statistics of interest from the relevant objects
                     double pfIssued = getPfIssued();  //Total prefetches issued by this prefetcher
                     double pfInCache = this->pfInCache.value();  //Number of prefetches already in cache
+                    double overallHits = this->getCache()->stats.overallHits.total();  //Number of overall cache hits (read + write)
                     double overallMisses = this->getCache()->stats.overallMisses.total();  //Number of overall cache misses (read + write)
+                    double accesses = overallHits + overallMisses;  //Number of overall cache accesses (read + write)
                     double unusedPrefetches = this->getCache()->stats.unusedPrefetches.value();  //Number of prefetched blocks evicted without reference
-                    //Print the statistics
+                    //Print the statistics to an output file
                     if (runningPfIssued == 0) {
-                        printf("Instruction\tpfIssued\tpfInCache\toverallMisses\tunusedPrefetches\n");
+                        fptr = fopen("m5out/prefetcherstats.txt", "w");
+                        fprintf(fptr, "Instruction,pfIssued,pfInCache,overallMisses,overallHits,overallAccesses,unusedPrefetches\n");
+                        fclose(fptr);
                     }
-                    printf("%f\t%f\t%f\t%f\t%f\n", sim_insts, 
+                    fptr = fopen("m5out/prefetcherstats.txt", "a");
+                    fprintf(fptr, "%f,%f,%f,%f,%f,%f,%f\n", sim_insts, 
                             pfIssued - runningPfIssued,
                             pfInCache - runningPfInCache,
+                            overallHits - runningOverallHits,
                             overallMisses - runningOverallMisses,
+                            accesses - runningAccesses,
                             unusedPrefetches - runningUnusedPrefetches
                             );
+                    fclose(fptr);
                     //Update for next iteration
                     running_sim_insts = sim_insts - remainder(sim_insts, this->intervalInsts);
                     runningPfIssued = pfIssued;
                     runningPfInCache = pfInCache;
+                    runningOverallHits = overallHits;
                     runningOverallMisses = overallMisses;
+                    accesses = runningAccesses;
                     runningUnusedPrefetches = unusedPrefetches;
                 }
             }

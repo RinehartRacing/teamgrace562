@@ -181,8 +181,11 @@ class QueuedPrefetcher : public BasePrefetcher
     double running_sim_insts = 0;
     double runningPfIssued = 0;
     double runningPfInCache = 0;
+    double runningOverallHits = 0;
     double runningOverallMisses = 0;
+    double runningAccesses = 0;
     double runningUnusedPrefetches = 0;
+    FILE *fptr;
     /* Elliot's Changes End Here */
 
     using AddrPriority = std::pair<Addr, int32_t>;
