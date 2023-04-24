@@ -1,0 +1,2 @@
+Instruction,pfIssued,pfInCache,overallMisses,overallHits,overallAccesses,unusedPrefetches
+133920009.000000,61.000000,196.000000,27176099.000000,640.000000,27176739.000000,0.000000
