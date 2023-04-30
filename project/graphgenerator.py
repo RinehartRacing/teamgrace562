@@ -40,9 +40,9 @@ def array_thinnerX(big_list, NUM):
 def get_metric(metric_num):
     titles = ("Prefetches Issued", "Prefetchers in Cache", "Overall Misses", "Overall Hits",
               "Overall Accesses", "Unused Prefetches", "Overall Misses to Overall Accesses Ratio", "Overall Hits to Overall Accesses Ratio",
-              "Unused Prefetches to Prefetches Issued Ratio", "Prefetchers in Cache to Unused Prefetches Ratio")
+              "Unused Prefetches to Prefetches Issued Ratio", "Unused Prefetches to Prefetchers in Cache Ratio", "Overall Hits to Overall Misses Ratio", "Prefetchers in Cache to Prefetches Issued Ratio")
     metrics = ("pfIssued", "pfInCache", "overallMisses", "overallHits", "overallAccesses", "unusedPrefetches",
-               "overallMisses overallAccesses", "overallHits overallAccesses", "unusedPrefetches pfIssued", "pfInCache unusedPrefetches")
+               "overallMisses overallAccesses", "overallHits overallAccesses", "unusedPrefetches pfIssued", "unusedPrefetches pfInCache", "overallHits overallMisses", "pfInCache pfIssued")
     return (titles[metric_num - 1], metrics[metric_num - 1])
 
 
@@ -130,8 +130,8 @@ def parse_input(args):
 def main():
     parser = argparse.ArgumentParser(
         prog='Graph Generator')
-    parser.add_argument('-metric', required=True, type=int, choices=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-                        help="statistic/metric to run-> 1:pfIssued, 2:pfInCache, 3:overallMisses, 4:overallHits, 5:overallAccesses, 6:unusedPrefetches, 7:overallMisses/overallAccesses, 8:overallHits/overallAccesses, 9:unusedPrefetches/pfIssued, 10:pfInCache/unusedPrefetches",)
+    parser.add_argument('-metric', required=True, type=int, choices=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                        help="statistic/metric to run-> 1:pfIssued, 2:pfInCache, 3:overallMisses, 4:overallHits, 5:overallAccesses, 6:unusedPrefetches, 7:overallMisses/overallAccesses, 8:overallHits/overallAccesses, 9:unusedPrefetches/pfIssued, 10:unusedPrefetches/pfInCache, 11:overallHits/overallMisses, 12:pfInCache/pfIssued")
     parser.add_argument('-workload', required=True, choices=[
                         "a2time01", "bitmnp01", "cacheb01", "mcf", "libquantum"], help="testbench to run")
     parser.add_argument('-xmin', required=False,
