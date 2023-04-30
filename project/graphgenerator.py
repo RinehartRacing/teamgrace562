@@ -68,7 +68,7 @@ def get_markers(index):
 
 def graph(title, workload, prefetchers, x_data_set, y_data_set, x_min, x_max, NUM):
     
-    fig = plt.figure(figsize = (5, 4))
+    fig = plt.figure(figsize = (3, 4))
 
     # Adding the axes to the figure
     ax = fig.add_subplot(111)
@@ -84,13 +84,14 @@ def graph(title, workload, prefetchers, x_data_set, y_data_set, x_min, x_max, NU
 
         y_data = array_thinnerY(y_data_set[i], NUM)
         ax1 = ax.plot(x_data, y_data, marker=marker)
-    ax.set_xlabel("Instruction Count")
-    ax.set_ylabel(title)
+    plt.xlabel('Instruction Count', fontsize=20)
+    plt.ylabel(title, fontsize=20)
     ax.set_xlim(left=x_min, right=x_max)
     
     # Adding Legend
-    ax.legend(labels = prefetchers, bbox_to_anchor=(1, 1))
-    ax.set_title(f"{title} vs. Instruction for {workload} Testbench")
+    plt.legend(labels=prefetchers, fontsize=15, loc="upper left")
+    # ax.legend(labels = prefetchers, bbox_to_anchor=(1, 1))
+    plt.title(f"{title} vs. Instruction for {workload} Testbench", fontsize=20)
     ax.grid()
     plt.show()
 def list_divider(listA, listB):
