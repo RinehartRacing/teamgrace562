@@ -48,6 +48,7 @@ def get_metric(metric_num):
 
 def get_data(metric, workload):
    results = glob(f"./results/*{workload}*")
+   results.sort()
    x_data_set = []
    y_data_set = []
    prefetchers = []
@@ -60,11 +61,16 @@ def get_data(metric, workload):
         x_data_set.append(x_data)
         y_data_set.append(y_data)
     
-   return (x_data_set, y_data_set, prefetchers)
+   return [x_data_set, y_data_set, prefetchers]
 
 def get_markers(index):
     markers = [".", "v", "s", "P", "X", "D", "p", "H"]
+
     return markers[index]
+
+def get_colors(index):
+    colors = ["red", "orange", "yellow", "green", "blue", "magenta", "black", "brown", "pink"]
+    return colors[index]
 
 def graph(title, workload, prefetchers, x_data_set, y_data_set, x_min, x_max, NUM):
     
@@ -78,18 +84,19 @@ def graph(title, workload, prefetchers, x_data_set, y_data_set, x_min, x_max, NU
         # plotting 1st dataset to the figure
         prefetcher = prefetchers[i]
         marker = get_markers(marker_pos % 8)
+        color = get_colors(marker_pos % 9)
         marker_pos += 1
         
         x_data = array_thinnerX(x_data_set[i], NUM)
 
         y_data = array_thinnerY(y_data_set[i], NUM)
-        ax1 = ax.plot(x_data, y_data, marker=marker)
+        ax1 = ax.plot(x_data, y_data, marker=marker, color=color)
     plt.xlabel('Instruction Count', fontsize=20)
     plt.ylabel(title, fontsize=20)
     ax.set_xlim(left=x_min, right=x_max)
     
     # Adding Legend
-    plt.legend(labels=prefetchers, fontsize=15, loc="upper left")
+    # plt.legend(labels=prefetchers, fontsize=15, loc="upper left")
     # ax.legend(labels = prefetchers, bbox_to_anchor=(1, 1))
     plt.title(f"{title} vs. Instruction for {workload} Testbench", fontsize=20)
     ax.grid()
